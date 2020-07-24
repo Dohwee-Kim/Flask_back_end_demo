@@ -6,4 +6,4 @@ Python 3.7, Flask X
 - REST API implement
 - Ping end point implementation
 - Mini twitter features implement
--
+- Docker integrated 
