@@ -1,0 +1,4 @@
+Run and Test : 
+
+flask run 
+try http -v GET localhost:5000/ping 
