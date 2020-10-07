@@ -38,3 +38,22 @@ def tweet():
 
     app.tweets.append({'user_id' : user_id,'tweet ' : tweet})
     return "", 200
+
+@app.route("/follow", methods=['POST'])
+def follow():
+    payload = request.json
+    user_id = int(payload['id'])
+    want_to_follow_user_id = int(payload['follow'])
+    
+    #user check 
+    if user_id not in app.users:
+        return "user {id} does not exist !".format(id=user_id), 400 
+
+    #follower check 
+    if want_to_follow_user_id not in app.users:
+        return "following user {id} does not exist !".format(id=want_to_follow_user_id), 400
+
+    user = app.users[user_id]
+    user.setdefault('follow', set()).add(want_to_follow_user_id) 
+
+    return jsonify(user)
