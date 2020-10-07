@@ -1,9 +1,19 @@
 from flask import Flask, request, jsonify
+from flask.json import JSONEncoder
 
 app = Flask(__name__)
 app.id_count = 1
 app.users = {}
 app.tweets = []
+
+class CustomJSONEncoder(JSONEncoder):     #inherited from parent JSONEncoder 
+    def default(self, obj):
+        if isinstance(obj,set):           #if obj == set
+            return list(obj)              #convert it to list 
+
+        return JSONEncoder.default(self, obj)
+
+app.json_encoder = CustomJSONEncoder
 
 @app.route("/ping", methods=['GET'])
 def ping():
@@ -57,3 +67,4 @@ def follow():
     user.setdefault('follow', set()).add(want_to_follow_user_id) 
 
     return jsonify(user)
+
