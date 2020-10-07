@@ -68,3 +68,20 @@ def follow():
 
     return jsonify(user)
 
+
+@app.route("/unfollow", methods=['POST'])
+def unfollow():
+    payload = request.json
+    user_id = int(payload['id'])
+    want_to_unfollow_user_id = int(payload['unfollow'])
+
+    if user_id not in app.users:
+        return "user {id} does not exist !".format(id=user_id), 400
+
+    if want_to_unfollow_user_id not in app.users:
+        return "following user {id} does not exist !".format(id=want_to_follow_user_id), 400
+
+    user = app.users[user_id]
+    user.setdefault('follow', set()).discard(want_to_unfollow_user_id)
+
+    return jsonify(user)
